@@ -18,7 +18,7 @@ import (
 
 	"github.com/gorilla/securecookie"
 	"github.com/gorilla/sessions"
-	_ "github.com/mattn/go-sqlite3"
+	_ "modernc.org/sqlite"
 )
 
 type SqliteStore struct {
@@ -42,7 +42,7 @@ type sessionRow struct {
 }
 
 type DB interface {
-	Exec(query string, args ...interface{}) (sql.Result, error) 
+	Exec(query string, args ...interface{}) (sql.Result, error)
 	Prepare(query string) (*sql.Stmt, error)
 	Close() error
 }
@@ -52,7 +52,7 @@ func init() {
 }
 
 func NewSqliteStore(endpoint string, tableName string, path string, maxAge int, keyPairs ...[]byte) (*SqliteStore, error) {
-	db, err := sql.Open("sqlite3", endpoint)
+	db, err := sql.Open("sqlite", endpoint)
 	if err != nil {
 		return nil, err
 	}
