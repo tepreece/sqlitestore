@@ -1,4 +1,5 @@
-/* Gorilla Sessions backend for SQLite.
+/*
+	Gorilla Sessions backend for SQLite.
 
 Copyright (c) 2013 Contributors. See the list of contributors in the CONTRIBUTORS file for details.
 
@@ -14,6 +15,7 @@ import (
 	"log"
 	"net/http"
 	"strings"
+	"sync"
 	"time"
 
 	"github.com/gorilla/securecookie"
@@ -31,6 +33,7 @@ type SqliteStore struct {
 	Codecs  []securecookie.Codec
 	Options *sessions.Options
 	table   string
+	mux     *sync.Mutex
 }
 
 type sessionRow struct {
@@ -56,6 +59,8 @@ func NewSqliteStore(endpoint string, tableName string, path string, maxAge int, 
 	if err != nil {
 		return nil, err
 	}
+
+	db.SetMaxOpenConns(1)
 
 	return NewSqliteStoreFromConnection(db, tableName, path, maxAge, keyPairs...)
 }
