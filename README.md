@@ -23,7 +23,7 @@ Usage
 - maxAge
 - codecs
 
-Internally, `sqlitestore` uses [this](https://github.com/mattn/go-sqlite3) SQLite driver.
+This version uses [this pure-Go SQLite driver](https://pkg.go.dev/modernc.org/sqlite).
 
 e.g.,
 
